@@ -4,7 +4,7 @@ REM This macro prepares a Cash Book report based on a properly
 REM filled and formatted table.
 REM
 REM Writen by Krisztian Stancz
-REM Version: 2017-Mar-14-v1
+REM Version: 2017-Jul-16-v1
 
 Type CashBookType
     InvoiceDate as Date
@@ -110,16 +110,23 @@ Sub Main
 		
 			StringLength = len(InvoiceString)			
 			Counter = 1
-	
-			Do While IsNumeric(Right(InvoiceString, Counter)) And Counter <= StringLength
-				Counter = Counter + 1
+				
+			'Counter will return the first non-numeric character's position from the right			
+			Do While  IsNumeric(Right(InvoiceString, Counter)) And Counter <= StringLength
+				' IsNumeric appends "-" to the number behind, interpreting it as a negative value
+				' We need to test against that,as we use "-" as a separator in invoice numbers
+				If CDbl((Right(InvoiceString, Counter))) < 0 Then
+					Exit Do
+				Else
+					Counter = Counter + 1
+				End If
 			Loop
 
 			If Counter = 1 Then
-				'InvoiceString consists only numbers
+				'InvoiceString ends with letter
 				InvoiceStringNumbers = InvoiceString
 			ElseIf Counter > StringLength Then
-				'InvoiceString ends with letters
+				'InvoiceString consists only numbers
 				InvoiceStringNumbers = InvoiceString
 			Else
 				'Invoice string starts with letters and ends with numbers
