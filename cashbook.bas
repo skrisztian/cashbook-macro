@@ -4,7 +4,7 @@ REM This macro prepares a Cash Book report based on a properly
 REM filled and formatted table.
 REM
 REM Writen by Krisztian Stancz
-REM Version: 2017-Jul-16-v1
+REM Version: 2017-Jul-21-v1
 
 Type CashBookType
     InvoiceDate as Date
@@ -18,7 +18,7 @@ Type CashBookType
     Comment as String
 End Type
 
-Sub Main
+Sub CashBook
 
 	Dim Sheet As Object
 	Dim ColumnLastCell, Row, TotalIncome, TotalExpense, TransferRow As Long
